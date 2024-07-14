@@ -3,79 +3,75 @@ package AlgorithmPractice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Dijkstra {
-    final static int MAX = Integer.MAX_VALUE;
+
+    static final int max = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-        Random r = new Random();
-        int[][] matrix = {{0, 20, 30, 0, 0},
-                {0, 0, 5, 40, 0},
-                {0, 0, 0, 20, 30},
-                {0, 0, 0, 0, 5},
-                {0, 0, 0, 0, 0}};
-        int[] s = new int[5];
-        int[] dist = new int[5];
-        int startNode = 0;
-        int mindist;
-        int nearestNodeNumber;
-        int destNode;
-        int newCost;
 
-        /*for (int i = 0; i < 5; i++) {
-            for (int j = i + 1; j < 5; j++) {
-                matrix[i][j] = r.nextInt(10);
-            }
-        }*/
+        long[][] cost = {{0, 20, 30, max, max}, // 행 번호가 출발정점, 열 번호가 도착정점
+                {max, 0, 5, 40, max},
+                {max, max, 0, 20, 30},
+                {max, max, max, 0, 5},
+                {max, max, max, max, 0}};
+        boolean[] s = new boolean[5];
+        long[] dist = new long[5];
+        int start;
 
-        //그래프 출력
+        System.out.print("시작 정점을 입력하세요 (0 - 4): ");
+        start = Integer.parseInt(br.readLine());
+
+        // 초기 설정
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                sb.append(matrix[i][j]).append(" ");
-            }
-            sb.append("\n");
+            dist[i] = cost[start][i];
         }
-        System.out.println("--그래프--\n" + sb);
 
-        //초기화
-        s[startNode] = 1; //시작 노드 표시
-        for (int i = 1; i < 5; i++) { //시작 노드에서 다른 노드까지 거리 저장
-            dist[i] = matrix[startNode][i];
+        dijkstra(start, cost, s, dist);
+
+        for (int i = 0; i < 5; i++) {
+            sb.append("정점 ").append(start).append("에서 정점 ").append(i).append("까지의 최단경로값 = ").append(dist[i]).append("\n");
         }
+
+        System.out.println(sb);
+    }
+
+    static void dijkstra(int start, long[][] cost, boolean[] s, long[] dist) {
+
+        int minIndex;
+        long minValue;
+        long newcost;
 
         while (true) {
-            mindist = MAX;
-            nearestNodeNumber = -1;
+
+            minIndex = -1;
+            minValue = max;
 
             for (int i = 0; i < 5; i++) {
-                if (s[i] == 0 && dist[i] < mindist && dist[i] > 0) {
-                    mindist = dist[i];
-                    nearestNodeNumber = i;
+                if (!s[i] && dist[i] < minValue) {
+                    minIndex = i;
+                    minValue = dist[i];
                 }
             }
 
-            if (nearestNodeNumber == -1) {
+            if (minIndex == -1) { // minIndex == -1의 의미는 위의 if 조건을 둘중 하나라도 만족하는 경우가 없었다는 것.
                 break;
             } else {
-                s[nearestNodeNumber] = 1;
-                for (destNode = 0; destNode < 5; destNode++) {
-                    if (s[destNode] == 0) {
-                        newCost = dist[nearestNodeNumber] + matrix[nearestNodeNumber][destNode];
-                        if (dist[destNode] == 0)
-                            dist[destNode] = newCost;
-                        else if (dist[destNode] > newCost)
-                            dist[destNode] = newCost;
+                s[minIndex] = true;
+                for (int j = 0; j < 5; j++) {
+                    if (!s[j]) { // 최단경로가 찾아지지 않았으면
+                        newcost = dist[minIndex] + cost[minIndex][j];
+                        if (newcost < dist[j]) {
+                            dist[j] = newcost;
+                        }
                     }
                 }
             }
-        }
-
-        System.out.println("0번 노드에서의 최단경로");
-        for (int i = 0; i < 5; i++) {
-            System.out.print(dist[i] + " ");
         }
     }
 }
