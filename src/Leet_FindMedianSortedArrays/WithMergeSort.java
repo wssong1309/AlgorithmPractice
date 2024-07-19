@@ -1,7 +1,7 @@
 // 시간복잡도: O(m+n)
 package Leet_FindMedianSortedArrays;
 
-public class FindMedianSortedArraysWithMergesort {
+public class WithMergeSort {
 
     public static void main(String[] args) {
         int[] nums1 = {1, 2};
