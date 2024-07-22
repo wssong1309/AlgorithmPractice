@@ -1,7 +1,7 @@
 package Leet_LongestPalindrome;
 
 public class BruteForce {
-    public static String longestPalindrome(String s) {
+    public String longestPalindrome(String s) {
         int length = 0;
         int startIndex = 0;
         int endIndex = 0;
@@ -19,7 +19,7 @@ public class BruteForce {
         return s.substring(startIndex, endIndex + 1);
     }
 
-    public static int isPalindrom(String s, int start, int end) {
+    public int isPalindrom(String s, int start, int end) {
         int length = end - start + 1;
         while (start <= end) {
             if (s.charAt(start++) == s.charAt(end--)) {
