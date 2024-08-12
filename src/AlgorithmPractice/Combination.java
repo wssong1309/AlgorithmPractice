@@ -22,7 +22,7 @@ public class Combination {
     //depth는 현재 인덱스를 의미한다.
     public static void combination(int[] numbers, boolean[] visited, int depth, int n, int r) {
         //n개의 숫자 중 한 개도 뽑지 않는다면 아무것도 출력하지 않음
-        //또는 아래에서 r을 하나씩 줄여가면서 combination 함수를 호출하기 때문에 r == 0인 경우, 원하는 만큼 숫자를 선택한 경우가 됨.
+        //또는 아래에서 r을 1씩 빼면서 combination 함수를 호출하기 때문에 r == 0인 경우, 원하는 만큼 숫자를 선택한 경우가 됨.
         if (r == 0) {
             print(numbers, visited, n);
             return;
